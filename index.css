@@ -1,0 +1,498 @@
+/* ========== ROOT VARIABLES & BASE STYLES ========== */
+:root {
+  /* Color Palette */
+  --primary: #5e17eb;
+  --primary-light: #8a2be2;
+  --accent: #00f0ff;
+  --accent-dark: #00d8ff;
+  --dark: #0f0e17;
+  --darker: #0a0911;
+  --light: #f8f9fa;
+  --white: #ffffff;
+  --glass: rgba(15, 14, 23, 0.65);
+  --success: #2ecc71;
+  --error: #e74c3c;
+  
+  /* Tech Colors */
+  --tech-blue: var(--accent-dark);
+  --tech-purple: #a239ca;
+  --tech-gold: #f9c74f;
+  
+  /* Measurements */
+  --radius: 12px;
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, var(--darker), var(--dark));
+  color: var(--light);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  line-height: 1.6;
+}
+
+/* ========== PARTICLE BACKGROUND SYSTEM ========== */
+.particle-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background: linear-gradient(to bottom, var(--darker), var(--dark));
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  background: rgba(94, 23, 235, 0.6);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: fall linear infinite;
+  z-index: -1;
+  filter: drop-shadow(0 0 5px rgba(138, 43, 226, 0.5));
+}
+
+@keyframes fall {
+  to { transform: translateY(100vh); }
+}
+
+/* Particle Variations */
+.particle.small { width: 2px; height: 2px; animation-duration: 15s; }
+.particle.medium { width: 3px; height: 3px; animation-duration: 20s; }
+.particle.large { width: 4px; height: 4px; animation-duration: 25s; }
+.particle.tech { background: var(--tech-blue); }
+.particle.accent { background: var(--accent); }
+
+.particle::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, 
+              rgba(94, 23, 235, 0.8) 0%, 
+              rgba(94, 23, 235, 0) 70%);
+  opacity: 0.6;
+}
+
+/* ========== FALLING EQUIPMENT ANIMATION ========== */
+.falling-equipment {
+  position: absolute;
+  top: -100px;
+  animation: falling linear infinite;
+  z-index: -1;
+  opacity: 0.7;
+  filter: drop-shadow(0 0 5px rgba(138, 43, 226, 0.5));
+}
+
+@keyframes falling {
+  0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { transform: translateY(calc(100vh + 100px)) rotate(360deg); opacity: 0; }
+}
+
+/* Equipment Icons */
+.gear { color: var(--tech-blue); font-size: 24px; }
+.circuit { color: var(--accent); font-size: 22px; }
+.chip { color: var(--light); font-size: 20px; }
+.robot { color: var(--tech-purple); font-size: 28px; }
+.tool { color: var(--tech-gold); font-size: 23px; }
+
+/* ========== LOGO SYSTEM ========== */
+.logo-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: fadeIn 1.5s ease-out;
+}
+
+.logo-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 60%;
+  border: 3px solid rgba(138, 43, 226, 0.3);
+  transition: var(--transition);
+}
+
+.logo-img:hover {
+  transform: rotate(15deg);
+  border-color: var(--accent);
+}
+
+.logo-text {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 600;
+  color: var(--white);
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+}
+
+.logo-text::after {
+  content: "INDO DANISH TOOL ROOM";
+  display: block;
+  font-size: 0.6rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ========== LOGIN FORM SYSTEM ========== */
+.main-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 15px;
+  position: relative;
+  z-index: 1;
+}
+
+.login-form {
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius);
+  padding: 40px 30px;
+  width: 100%;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(138, 43, 226, 0.15);
+  position: relative;
+  overflow: hidden;
+  animation: slideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: var(--transition);
+}
+
+.login-form:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(106, 13, 173, 0.4);
+  border-color: rgba(138, 43, 226, 0.3);
+}
+
+.login-form::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    transparent 45%,
+    rgba(138, 43, 226, 0.1) 50%,
+    transparent 55%
+  );
+  animation: shine 8s infinite linear;
+  z-index: -1;
+}
+
+/* Form Header */
+.form-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.form-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(138, 43, 226, 0.1);
+  border-radius: 50%;
+  border: 2px solid var(--tech-purple);
+  color: var(--accent);
+  font-size: 1.8rem;
+  box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
+  transition: var(--transition);
+}
+
+.form-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 5px;
+  background: linear-gradient(45deg, var(--tech-blue), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1px;
+}
+
+/* Form Inputs */
+.form-group {
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.input-field {
+  width: 100%;
+  padding: 15px 20px 15px 45px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(138, 43, 226, 0.3);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  color: var(--white);
+  transition: var(--transition);
+  font-weight: 400;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.2);
+}
+
+.input-field::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.input-icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.5);
+  transition: var(--transition);
+}
+
+.input-field:focus ~ .input-icon {
+  color: var(--accent);
+}
+
+/* Submit Button */
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 20px rgba(94, 23, 235, 0.4);
+  position: relative;
+  overflow: hidden;
+  margin: 20px 0;
+  letter-spacing: 0.5px;
+}
+
+.submit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(94, 23, 235, 0.6);
+}
+
+/* Form Footer */
+.form-meta {
+  text-align: center;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.admin-link {
+  color: var(--accent);
+  text-decoration: none;
+  transition: var(--transition);
+  font-weight: 500;
+}
+
+.admin-link:hover {
+  color: var(--white);
+  text-decoration: underline;
+}
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shine {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ========== RESPONSIVE ADJUSTMENTS ========== */
+@media (max-width: 768px) {
+  .logo-container {
+    top: 15px;
+    left: 15px;
+  }
+  
+  .logo-img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .logo-text {
+    font-size: 1.1rem;
+  }
+  
+  .login-form {
+    padding: 30px 25px;
+  }
+  
+  .form-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-container {
+    top: 10px;
+    left: 10px;
+  }
+  
+  .logo-text {
+    font-size: 0.9rem;
+  }
+  
+  .logo-text::after {
+    font-size: 0.5rem;
+  }
+  
+  .form-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+  
+  .form-title {
+    font-size: 1.3rem;
+  }
+  
+  .input-field {
+    padding: 14px 20px 14px 40px;
+  }
+}
+
+/* === FORGOT PASSWORD SIDE PANEL === */
+.main-box {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.side-panel {
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 30px;
+  width: 320px;
+  border-radius: var(--radius);
+  display: none;
+  flex-direction: column;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(138, 43, 226, 0.15);
+  animation: slideUp 0.8s ease;
+}
+
+.side-panel h2, .side-panel h3 {
+  color: var(--white);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.side-panel input, .side-panel button {
+  padding: 12px;
+  margin: 10px 0;
+  width: 100%;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(138, 43, 226, 0.3);
+  color: var(--white);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.side-panel input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.side-panel input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.2);
+}
+
+.side-panel button {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: var(--white);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+}
+
+.side-panel button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(94, 23, 235, 0.4);
+}
+
+.toggle-link {
+  cursor: pointer;
+  color: var(--accent);
+  text-decoration: underline;
+  margin-top: 10px;
+  display: block;
+  font-weight: 500;
+}
+
+
+/* === FIX ALIGNMENT FOR SIDE PANEL ON RIGHT === */
+.main-box {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 60px;
+  flex-wrap: nowrap;
+  margin-top: 40px;
+  padding: 0 20px;
+}
+
+.main-container {
+  flex: 1 1 400px;
+}
+
+.side-panel {
+  flex: 0 0 320px;
+  align-self: flex-start;
+}

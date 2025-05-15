@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Engineering Portal | Login</title>
+  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <div class="particle-background" id="particle-background"></div>
+  <div id="falling-equipment-container"></div>
+  <div class="logo-container">
+    <img src="https://media-hosting.imagekit.io/f43f4afb10c34b34/Black_And_White_Illustrative_Cricket_Club_Logo_20250402_093242_0000-removebg-preview.png" alt="IDTR Logo" class="logo-img" />
+    <div class="logo-text">IDTR</div>
+  </div>
+
+  <div class="main-box">
+    <div class="main-container">
+      <form class="login-form" action="studentlogin.php" method="POST">
+        <div class="form-header">
+          <div class="form-icon"><i class="fas fa-user"></i></div>
+          <h1 class="form-title">STUDENT LOGIN</h1>
+          <p class="form-subtitle">Engineering Resource Portal</p>
+        </div>
+        <div class="form-group">
+          <input type="text" name="full_name" class="input-field" placeholder="Full Name" required />
+          <i class="fas fa-user input-icon"></i>
+        </div>
+        <div class="form-group">
+          <input type="text" name="rollnumber" class="input-field" placeholder="Roll Number" required />
+          <i class="fas fa-id-card input-icon"></i>
+        </div>
+        <div class="form-group">
+          <input type="password" name="password" class="input-field" placeholder="Password" required />
+          <i class="fas fa-lock input-icon"></i>
+        </div>
+        <button type="submit" class="submit-btn"><span class="btn-text">AUTHENTICATE</span></button>
+        <div class="form-meta">
+          <p><a href="admin.html" class="admin-link">ADMIN LOGIN</a></p>
+          <span class="toggle-link" onclick="togglePanel()">Forgot Password?</span>
+        </div>
+      </form>
+    </div>
+
+    <div class="side-panel" id="forgotPanel" style="display: none;">
+      <h3>Reset Your Password</h3>
+      <input type="text" id="fp_roll" placeholder="Roll Number" />
+      <input type="date" id="fp_dob" />
+      <button onclick="sendOTP()">Send OTP</button>
+      <p id="fp_message"></p>
+
+      <div id="otpSection" style="display:none;">
+        <h3>Enter OTP</h3>
+        <input type="text" id="fp_otp" placeholder="Enter OTP" />
+        <button onclick="verifyOTP()">Verify OTP</button>
+      </div>
+
+      <div id="passSection" style="display:none;">
+        <h3>Create New Password</h3>
+        <input type="password" id="fp_newpass" placeholder="New Password" />
+        <button onclick="resetPassword()">Save Password</button>
+        <p id="pass_message"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function togglePanel() {
+      const panel = document.getElementById("forgotPanel");
+      panel.style.display = "flex";
+    }
+
+    function sendOTP() {
+      const roll = document.getElementById("fp_roll").value;
+      const dob = document.getElementById("fp_dob").value;
+      fetch("send_otp.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rollnumber: roll, dob: dob })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("fp_message").textContent = data.message;
+        if (data.success) {
+          sessionStorage.setItem("rollnumber", roll);
+          document.getElementById("otpSection").style.display = "block";
+        }
+      });
+    }
+
+    function verifyOTP() {
+      const roll = sessionStorage.getItem("rollnumber");
+      const otp = document.getElementById("fp_otp").value;
+      fetch("verify_otp.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rollnumber: roll, otp: otp })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          document.getElementById("passSection").style.display = "block";
+        } else {
+          alert(data.message);
+        }
+      });
+    }
+
+    function resetPassword() {
+      const pass = document.getElementById("fp_newpass").value;
+      fetch("create_student_password.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ new_password: pass })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("pass_message").textContent = data.message;
+        if (data.success) {
+          alert("Password changed successfully. Please login.");
+          location.reload();
+        }
+      });
+    }
+  </script>
+</body>
+</html>
